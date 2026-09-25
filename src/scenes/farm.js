@@ -158,15 +158,9 @@ export default class FarmWorld extends World {
     const free = (x, z) => !this.nearFarm(x, z) && FIELDS.every((f) => Math.hypot(x - f.x, z - f.z) > 17) && Math.abs(x + 6) > 2.5 && Math.abs(z + 18) > 2.5;
     const area = (r0, r1, filt = free) => (rng) => { const a = rng() * 6.28, r = r0 + rng() * (r1 - r0); const x = Math.cos(a) * r, z = 10 + Math.sin(a) * r; return filt(x, z) && !this.isWheat(x, z) ? [x, z] : null; };
 
-    // fences circling the crop fields, open toward the farmstead
+    // scarecrows watch over the open crop fields (no fences — the fields are free to walk into)
     for (const f of FIELDS) {
-      const pts = [];
       const gap = Math.atan2(FARMSTEAD.z - f.z, FARMSTEAD.x - f.x);
-      for (let i = 0; i <= 18; i++) {
-        const a = gap + 0.45 + (i / 18) * (Math.PI * 2 - 0.9);
-        pts.push([f.x + Math.cos(a) * 16, f.z + Math.sin(a) * 16]);
-      }
-      s.add(D.fence(pts, H, { color: '#d9c7a4', spacing: 2.6 }));
       this.add(D.scarecrow(f.x, H(f.x, f.z), f.z, gap + Math.PI / 2));
     }
     // sunflower rows along the irrigation channel
@@ -192,7 +186,7 @@ export default class FarmWorld extends World {
       for (let k = 0; k < 4; k++) c.add(sphere(0.15, i % 2 ? '#f28a3c' : '#9ad05a', -0.2 + (k % 2) * 0.4, 0.45, -0.2 + Math.floor(k / 2) * 0.4));
       this.add(c);
     }
-    this.colliders.push({ type: 'box', minX: 9, maxX: 12.4, minZ: 16.3, maxZ: 18.5 });
+    this.colliders.push({ type: 'box', minX: 9, maxX: 12.4, minZ: 16.3, maxZ: 18.5, h: 0.9 });
     this.add(D.woodpile(14, H(14, 33), 33));
     this.add(D.makeChickens({ count: 8, area: { x0: -1, x1: 8, z0: 20, z1: 24 }, heightAt: H, seed: 4 }));
     this.add(D.laundryLine(14, 26, 20, 26, H));
@@ -320,14 +314,13 @@ export default class FarmWorld extends World {
       add(tur);
       this.animate((t) => (rot.rotation.z = t * 0.35 + i));
     }
-    // hay bales, fence, cart
+    // hay bales, cart
     for (let i = 0; i < 6; i++) {
       const b = cyl(0.8, 0.8, 1.3, '#e6c36a', F.x - 3 + (i % 3) * 1.8, 0.8, F.z - 6 - Math.floor(i / 3) * 2);
       b.rotation.z = Math.PI / 2;
       add(b);
     }
     this.colliders.push(boxCollider(F.x - 1.2, F.z - 7, 6, 4));
-    for (let i = 0; i < 14; i++) add(box(0.12, 1, 0.12, '#e8dcc4', F.x - 20 + i * 3, 0.5 + this.terrainH(F.x - 20 + i * 3, F.z - 14), F.z - 14));
     const cart = (this.cart = new THREE.Group());
     cart.position.copy(CART).setY(this.terrainH(CART.x, CART.z));
     cart.add(box(2.6, 0.9, 1.6, '#9a6b45', 0, 0.95, 0));

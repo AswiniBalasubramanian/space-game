@@ -1,9 +1,10 @@
 // Lightweight 2D (XZ-plane) collision: circles against boxes and circles.
 
-export function resolveCollisions(p, r, colliders) {
+export function resolveCollisions(p, r, colliders, heightAbove = 0) {
   for (let pass = 0; pass < 2; pass++) {
     for (const c of colliders) {
       if (c.enabled === false) continue;
+      if (c.h !== undefined && heightAbove > c.h) continue; // jumped over it
       if (c.type === 'box') {
         const cx = Math.max(c.minX, Math.min(p.x, c.maxX));
         const cz = Math.max(c.minZ, Math.min(p.z, c.maxZ));

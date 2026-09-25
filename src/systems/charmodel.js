@@ -367,6 +367,7 @@ export function buildCharacter(opts = {}) {
     animate(dt, speed, t) {
       const k = clamp(speed / 3, 0, 2.1);
       const carrying = basket.visible;
+      P.armL.rotation.z = -0.14; P.armR.rotation.z = 0.14;
       if (k > 0.05) {
         phase += dt * (4 + speed * 1.6);
         const sw = Math.sin(phase);
@@ -401,6 +402,16 @@ export function buildCharacter(opts = {}) {
       blinkT -= dt;
       const bl = blinkT < 0 ? (blinkT < -0.13 ? ((blinkT = 2 + Math.random() * 3.5), 1) : 0.12) : 1;
       if (P.eyeL) { P.eyeL.scale.y = bl; P.eyeR.scale.y = bl; }
+    },
+    /** Mid-air pose: knees tucked on the way up, legs reaching for the ground on the way down. */
+    jumpPose(vy) {
+      const up = clamp(vy / 6, -1, 1);
+      const tuck = 0.5 + up * 0.4;
+      P.legL.rotation.x = -0.7 * tuck; P.legR.rotation.x = -0.35 * tuck;
+      P.kneeL.rotation.x = 1.3 * tuck; P.kneeR.rotation.x = 0.9 * tuck;
+      P.armL.rotation.x = -1.3 * (0.4 + up * 0.4); P.armR.rotation.x = -1.3 * (0.4 + up * 0.4);
+      P.armL.rotation.z = -0.5; P.armR.rotation.z = 0.5;
+      body.position.y = 0;
     },
     /** Point the head toward a world position (for NPCs noticing the player). */
     lookAt(target, dt) {

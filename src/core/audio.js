@@ -240,6 +240,8 @@ export class AudioSys {
   sfx(name) {
     if (!this.ctx) return;
     switch (name) {
+      case 'jump': this._noiseBurst({ dur: 0.25, freq: 900, q: 0.8, vol: 0.08, sweep: 1800 }); this._tone(300, 0.15, 0.04, 'sine', 520); break;
+      case 'land': this._noiseBurst({ dur: 0.18, freq: 300, q: 1, vol: 0.12 }); break;
       case 'blip': this._tone(880, 0.12, 0.05, 'sine', 1320); break;
       case 'type': this._tone(1400 + Math.random() * 300, 0.03, 0.012, 'square'); break;
       case 'pickup': this._tone(660, 0.18, 0.08, 'triangle', 990); this._tone(990, 0.25, 0.06, 'sine', null, 0.08); break;

@@ -657,7 +657,7 @@ export function makeRocks(list, { color = '#8c95a3', top = '#b8c0c8', moss = '#6
     g.setAttribute('color', new THREE.BufferAttribute(arr, 3));
     g.translate(r.x, r.y + r.s * 0.2, r.z);
     geos.push(g);
-    if (r.s > 0.45) colliders.push({ type: 'circle', x: r.x, z: r.z, r: r.s * 1.05 });
+    if (r.s > 0.45) colliders.push({ type: 'circle', x: r.x, z: r.z, r: r.s * 1.05, h: r.s * 0.9 });
   }
   const mesh = new THREE.Mesh(mergeGeometries(geos), toon('#ffffff', { vertexColors: true }));
   geos.forEach((g) => g.dispose());

@@ -40,6 +40,9 @@ export class CharacterController {
     this._camPos = new THREE.Vector3();
     this._ray = new THREE.Raycaster();
     this.xrSnap = 0;
+    this.airborne = false;
+    this.vy = 0;
+    this.groundY = 0;
   }
 
   build(character) {
@@ -60,6 +63,8 @@ export class CharacterController {
     this.facing = facing;
     this.camYaw = camYaw;
     this.speed = 0;
+    this.airborne = false;
+    this.vy = 0;
     this.model.group.position.copy(this.position);
     this.model.group.rotation.y = facing;
     this.snapCamera();
@@ -106,7 +111,8 @@ export class CharacterController {
     const len = Math.hypot(mx, mz);
     const running = input.run();
     const target = len > 0.01 ? (running ? 6.4 : 3.1) * Math.min(1, len) : 0;
-    this.speed += (target - this.speed) * Math.min(1, dt * 8);
+    // keep momentum through the air
+    this.speed += (target - this.speed) * Math.min(1, dt * (this.airborne ? 0.4 : 8));
     if (len > 0.01) {
       mx /= len; mz /= len;
       const want = Math.atan2(mx, mz);
@@ -127,17 +133,39 @@ export class CharacterController {
         return true;
       };
       if (!tryMove(p.x + vx, p.z + vz)) { tryMove(p.x + vx, p.z) || tryMove(p.x, p.z + vz); }
-      resolveCollisions(p, this.radius, world.colliders);
+      // while airborne, low obstacles (with a height `h`) can be jumped over
+      resolveCollisions(p, this.radius, world.colliders, this.airborne ? p.y - this.groundY : 0);
       const h = world.groundAt(p.x, p.z);
       if (h === null || h === undefined) { p.x -= vx; p.z -= vz; }
     }
     const gh = world.groundAt(this.position.x, this.position.z) ?? this.position.y;
-    this.position.y += (gh - this.position.y) * Math.min(1, dt * 14);
+    // jump (Space / XR A-button) — clears rocks, crates, barrels, benches
+    if (allowMove && !this.airborne && (input.hit('Space') || input.xrHit('a')) && this.game.mode === 'walk') {
+      this.airborne = true;
+      this.vy = 6.2;
+      if (this.speed > 0.5) this.speed = Math.max(this.speed, 5.2); // a real leap forward
+      this.groundY = gh;
+      this.game.audio.sfx('jump');
+    }
+    if (this.airborne) {
+      this.vy -= 16 * dt;
+      this.position.y += this.vy * dt;
+      this.groundY += (gh - this.groundY) * Math.min(1, dt * 10);
+      if (this.position.y <= gh && this.vy < 0) {
+        this.position.y = gh;
+        this.airborne = false;
+        this.vy = 0;
+        this.game.audio.sfx('land');
+      }
+    } else {
+      this.position.y += (gh - this.position.y) * Math.min(1, dt * 14);
+    }
 
     const g = this.model.group;
     g.position.copy(this.position);
     g.rotation.y = this.facing;
     this.model.animate(dt, this.speed, this.game.time);
+    if (this.airborne) this.model.jumpPose?.(this.vy);
     g.visible = !xr;
   }
 

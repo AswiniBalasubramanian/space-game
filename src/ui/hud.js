@@ -164,7 +164,7 @@ export class HUD {
         <button class="btn" data-a="mute">Sound · ${g.audio.muted ? 'Off' : 'On'}</button>
         <button class="btn" data-a="title">Save &amp; return to title</button>
       </div>
-      <div class="keys-list"><b>WASD</b> move<br><b>Mouse</b> look / steer<br><b>Shift</b> run / boost<br><b>E</b> interact<br><b>Space/C</b> rise / sink<br><b>Tab</b> inventory<br><b>Wheel</b> zoom<br><b>Esc</b> pause</div></div>`;
+      <div class="keys-list"><b>WASD</b> move<br><b>Mouse</b> look / steer<br><b>Shift</b> run / boost<br><b>Space</b> jump · lift off<br><b>E</b> interact<br><b>Space/C</b> rise / sink (space)<br><b>Tab</b> inventory<br><b>Wheel</b> zoom<br><b>Esc</b> pause</div></div>`;
     this.pause.querySelectorAll('button').forEach((b) => (b.onclick = () => g.menuAction(b.dataset.a)));
     this.pause.classList.remove('hidden');
     return true;

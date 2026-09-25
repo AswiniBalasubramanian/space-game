@@ -55,6 +55,7 @@ Who can see what:
 | WASD / arrows | walk · drive · fly |
 | Mouse (click to capture) or drag | look / steer |
 | Shift | run / boost |
+| Space | jump (walking) · lift off (car) · rise (space) |
 | E | interact, advance dialogue |
 | Space / C | lift off · rise / sink in space |
 | 1–4 | dialogue choices |

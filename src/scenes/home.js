@@ -589,7 +589,7 @@ export default class HomeWorld extends World {
     g.setMode('walk');
     M.start('find_oxygen');
     this.refreshMarkers();
-    g.hud.hint('<b>WASD</b> walk · <b>Mouse</b> look (click to capture)<br><b>Shift</b> run · <b>E</b> interact · <b>Tab</b> inventory', 16000);
+    g.hud.hint('<b>WASD</b> walk · <b>Mouse</b> look (click to capture)<br><b>Shift</b> run · <b>Space</b> jump · <b>E</b> interact · <b>Tab</b> inventory', 16000);
   }
 
   refreshMarkers() {

@@ -390,7 +390,7 @@ export function bench(x, y, z, ry = 0, color = '#8a5a3a') {
   for (let i = 0; i < 3; i++) g.add(box(1.6, 0.05, 0.14, color, 0, 0.45, -0.18 + i * 0.17));
   for (let i = 0; i < 2; i++) g.add(box(1.6, 0.12, 0.04, color, 0, 0.7 + i * 0.18, -0.28));
   for (const sx of [-0.7, 0.7]) { g.add(box(0.08, 0.45, 0.45, '#4a3a30', sx, 0.22, 0)); g.add(box(0.06, 0.5, 0.06, '#4a3a30', sx, 0.7, -0.28)); }
-  g.userData.colliders = [{ type: 'circle', x, z, r: 0.75 }];
+  g.userData.colliders = [{ type: 'circle', x, z, r: 0.75, h: 0.8 }];
   return g;
 }
 
@@ -517,7 +517,7 @@ export function woodpile(x, y, z, ry = 0) {
       g.add(end);
     }
   }
-  g.userData.colliders = [{ type: 'circle', x, z, r: 0.9 }];
+  g.userData.colliders = [{ type: 'circle', x, z, r: 0.9, h: 1.0 }];
   return g;
 }
 
