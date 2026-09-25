@@ -1,16 +1,13 @@
-import { defineConfig } from 'vite';
+// Standalone build of the game (for its own Vercel project with Root Directory = astra).
 import { resolve } from 'node:path';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
   build: {
-    target: 'es2022',
+    outDir: 'dist',
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
-      input: {
-        main: resolve(import.meta.dirname, 'index.html'),
-        admin: resolve(import.meta.dirname, 'admin.html'),
-      },
+      input: { main: resolve(__dirname, 'index.html'), admin: resolve(__dirname, 'admin.html') },
     },
   },
 });

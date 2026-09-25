@@ -1,74 +1,16 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astra Admin</title>
-  <meta name="description" content="Admin console for Astra: players, progression, worlds, missions and NPCs." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <header class="top">
-    <div>
-      <p class="eyebrow">Astra · console</p>
-      <h1>Mission Control</h1>
-    </div>
-    <nav>
-      <button data-tab="dash" class="on">Dashboard</button>
-      <button data-tab="players">Players</button>
-      <button data-tab="missions">Missions</button>
-      <button data-tab="worlds">Worlds &amp; NPCs</button>
-      <a class="play" href="./index.html">Open game ↗</a>
-    </nav>
-  </header>
-
-  <main>
-    <section id="tab-dash" class="tab on">
-      <div class="metrics" id="metrics"></div>
-      <div class="card">
-        <h2>Progress funnel</h2>
-        <p class="muted">How far each player has travelled through the story.</p>
-        <div id="funnel"></div>
-      </div>
-      <p class="note">Data lives in this browser's local storage (the game has no server). Players shown here are the profiles created on this device. Use Export / Import on the Players tab to move data between machines.</p>
-    </section>
-
-    <section id="tab-players" class="tab">
-      <div class="card">
-        <div class="row between">
-          <h2>Players</h2>
-          <div class="row">
-            <button id="btn-export" class="btn">Export JSON</button>
-            <label class="btn">Import JSON<input type="file" id="file-import" accept="application/json" hidden /></label>
-          </div>
-        </div>
-        <div class="table-wrap"><table id="players"></table></div>
-      </div>
-      <div class="card hidden" id="editor"></div>
-    </section>
-
-    <section id="tab-missions" class="tab">
-      <div class="card">
-        <h2>Mission tuning</h2>
-        <p class="muted">Changes apply the next time a player enters the world.</p>
-        <form id="tuning"></form>
-      </div>
-      <div class="card">
-        <h2>Rewards &amp; resources</h2>
-        <div class="table-wrap"><table id="items"></table></div>
-      </div>
-    </section>
-
-    <section id="tab-worlds" class="tab">
-      <div class="grid2">
-        <div class="card"><h2>Worlds</h2><div class="table-wrap"><table id="worlds"></table></div></div>
-        <div class="card"><h2>NPCs</h2><div class="table-wrap"><table id="npcs"></table></div></div>
-      </div>
-      <div class="card"><h2>Lessons (Knowledge World)</h2><div class="table-wrap"><table id="lessons"></table></div></div>
-    </section>
-  </main>
-  <script type="module" src="/src/admin/admin.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3rd World Admin</title>
+    <meta name="theme-color" content="#090a12" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="admin"></div>
+    <script type="module" src="./src/admin/admin.js"></script>
+  </body>
 </html>

@@ -1,106 +1,18 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astra — A Breath Between Worlds</title>
-  <meta name="description" content="A cozy watercolour space adventure: help three worlds, bring home the oxygen." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <!-- watercolour edge filter used by painted UI cards -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="4" /><feDisplacementMap in="SourceGraphic" scale="7" /></filter>
-  </svg>
-
-  <div id="app"></div>
-
-  <!-- ENTRY / LOGIN -->
-  <section id="entry" class="screen show">
-    <div class="entry-card paper" id="entry-login">
-      <p class="eyebrow">a breath between worlds</p>
-      <h1 class="logo">Astra</h1>
-      <p class="lede">Mom's oxygen is running low. Somewhere past the sky, three worlds are waiting for your help.</p>
-      <label class="field">
-        <span>Nickname</span>
-        <input id="nick" maxlength="16" autocomplete="off" placeholder="What should Mom call you?" />
-      </label>
-      <button id="btn-begin" class="btn primary">Begin</button>
-      <div id="profiles"></div>
-    </div>
-
-    <div class="entry-card paper hidden" id="entry-char">
-      <p class="eyebrow">choose your explorer</p>
-      <div class="chars">
-        <button class="char" data-char="female"><span class="portrait female"></span><b>Female Explorer</b><small>Orange scarf, steady hands</small></button>
-        <button class="char" data-char="male"><span class="portrait male"></span><b>Male Explorer</b><small>Maroon stripe, restless heart</small></button>
-      </div>
-      <button id="btn-choose" class="btn primary" disabled>Start the Journey</button>
-    </div>
-    <p class="entry-foot">WASD move · Mouse look (click to lock) · Shift run · E interact · M sound · V paint filter · <a href="./admin.html">admin</a></p>
-  </section>
-
-  <div id="cinetext"><p class="l1"></p><p class="l2"></p></div>
-
-  <!-- HUD -->
-  <div id="hud">
-    <div id="hud-player" class="hud-block">
-      <span class="avatar"></span>
-      <div><span class="label">Player</span><span class="value"></span></div>
-    </div>
-    <div id="hud-mission" class="hud-block">
-      <span class="label">Mission</span>
-      <span class="title"></span>
-      <span class="objective"></span>
-      <span class="progress"></span>
-    </div>
-    <div id="hud-bottom">
-      <div id="hud-world" class="hud-block"><span class="label">World</span><span class="value"></span></div>
-      <div id="hud-oxygen" class="hud-block">
-        <span class="label">Oxygen</span>
-        <div class="pips"><i class="pip"></i><i class="pip"></i><i class="pip"></i></div>
-        <span class="count">0 / 3</span>
-      </div>
-      <div id="hud-resources"></div>
-    </div>
-    <div id="hud-tools">
-      <button id="btn-sound" title="Sound (M)">♪</button>
-      <button id="btn-paint" title="Watercolour filter (V)">✎</button>
-      <button id="btn-restart" title="New journey">↺</button>
-    </div>
-  </div>
-
-  <div id="prompt"></div>
-  <div id="toast"></div>
-  <div id="banner"><div class="b-title"></div><div class="b-sub"></div></div>
-  <div id="waypoint"><span class="arrow">➤</span><span class="dist"></span></div>
-  <div id="controls-hint"></div>
-  <div id="fishing"><div class="label"></div><div class="track"><div class="zone"></div><div class="bob"></div></div></div>
-
-  <div id="dialogue">
-    <div class="who"></div>
-    <div class="text"></div>
-    <div class="options"></div>
-    <div class="next">▼</div>
-  </div>
-
-  <section id="ending" class="screen">
-    <div class="entry-card paper">
-      <p class="eyebrow">the end of one journey</p>
-      <h2 class="logo small">Home</h2>
-      <p class="lede">Helping others gave you the strength to save the one you love.</p>
-      <p class="stats"></p>
-      <div class="row">
-        <button id="btn-roam" class="btn">Stay a while</button>
-        <button id="btn-again" class="btn primary">New journey</button>
-      </div>
-    </div>
-  </section>
-
-  <div id="fade"></div>
-  <div id="loading"><div class="spinner"></div><p>Painting the sky…</p></div>
-  <script type="module" src="/src/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>3rd World</title>
+    <meta name="description" content="3rd World — a cinematic space adventure. Cross three worlds, help their people, and bring oxygen home." />
+    <meta name="theme-color" content="#090a12" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="ui"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
 </html>

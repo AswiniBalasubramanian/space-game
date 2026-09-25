@@ -1,90 +1,90 @@
-# Astra — A Breath Between Worlds
+# 3rd World — a cinematic space adventure (three.js)
 
-A cozy, watercolour, Ghibli-inspired 3D adventure in the browser, built with **three.js**.
+*Helping others gives us the strength to save the people we love.*
 
-Mom is ill and her oxygen machine is failing. Your father's old star map shows three black holes, and beyond each one a world that might help. You fly the old blue car through a painted cosmos. In each world you help people, and they give you an **Oxygen Core** in return. Then you go home.
+Mother depends on an oxygen machine. Three black holes lead to three worlds. Help the
+people in each world to earn an Oxygen Core, then fly home and save her.
 
-> *Helping others gives us the strength to save the people we love.*
-
-## Run it
+## Run
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
-npm run build      # production build in dist/
+npm run dev          # game:  http://localhost:5173/
+                     # admin: http://localhost:5173/admin.html
+npm run build        # outputs dist/
 ```
 
-- Game: `index.html`
-- Admin console: `admin.html` (also linked from the entry screen footer)
+Dev shortcut: `/?dev=home|space|farm|knowledge|hunger` jumps straight into a world as a test player.
+
+## Deploy to Vercel (own project, `3rdworld` name)
+
+This repository is a self-contained Vite project (`package.json`, `vite.config.js`, `vercel.json`).
+
+1. Go to **vercel.com/new** and import this GitHub repo.
+2. **Project name:** `3rdworld`. The free address becomes `https://3rdworld.vercel.app` if that name is free.
+3. **Root Directory:** leave it as the repository root. The build settings come from `vercel.json`.
+4. **Environment Variables** (optional, for the database): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+5. Click **Deploy**. The game is served at `/` and your admin console at `/admin`.
+6. **Custom domain** (e.g. `3rdworld.com`, if you own it): open **Settings → Domains → Add** and
+   follow Vercel's DNS instructions.
+
+CLI alternative: `npx vercel --prod`, then choose the project name `3rdworld`.
+
+## Database (Supabase) & private admin
+
+Without configuration the game saves to `localStorage` only. To keep a real database:
+
+1. Create a Supabase project and run [`supabase/migrations/0001_astra.sql`](supabase/migrations/0001_astra.sql)
+   in its SQL editor. It creates `players`, `game_config` and `admins`, with Row Level Security.
+2. **Authentication → Providers:** enable **Anonymous sign-ins** (players get a silent session).
+3. **Authentication → Users → Add user:** your admin email + a password. The migration lists
+   that email in `admins`; edit the `insert into public.admins` line to change it.
+4. Copy `.env.example` to `.env.local`, fill in the project URL and anon key, then `npm run dev` / `npm run build`.
+
+Who can see what:
+- **Players:** each browser reads and writes only its own saves.
+- **Admin (`/admin`):** requires your email and password. The database returns
+  everyone's data only to accounts in `admins`, so anyone else who opens the page sees nothing.
+- **Admin edits:** changes to a player's save are picked up the next time that player continues.
+  Content edits apply to everyone on their next load.
 
 ## Controls
 
-| Action | Keyboard / mouse | VR (WebXR) |
-|---|---|---|
-| Move | `W A S D` / arrows | left stick |
-| Look | mouse (click canvas to lock the pointer), right-drag | head + right stick snap-turn |
-| Run | `Shift` | — |
-| Interact / advance dialogue | `E` (also `Space`/`Enter` in dialogue) | trigger |
-| Dialogue choices | `1`–`3`, arrows + `E`, or click | left stick + trigger |
-| Drive (home) | `W/S` drive, `A/D` steer, `Space` lift off, `E` get out | left stick |
-| Fly (space) | `W/S` thrust, `A/D` + mouse steer, `Space`/`C` climb/dive, `Shift` boost | left stick, right stick pitch, A/B |
-| Sound / paint filter | `M` / `V` (or the buttons bottom-right) | — |
-
-Add `?dev=4` to the URL to run the game clock 4× faster. It's useful for testing cutscenes on slow machines.
+| | |
+|---|---|
+| WASD / arrows | walk · drive · fly |
+| Mouse (click to capture) or drag | look / steer |
+| Shift | run / boost |
+| E | interact, advance dialogue |
+| Space / C | lift off · rise / sink in space |
+| 1–4 | dialogue choices |
+| Tab · Esc · M | inventory · pause · mute |
+| VR | an **Enter VR** button appears on WebXR headsets (left stick moves, right stick turns, trigger interacts) |
 
 ## The journey
 
-1. **Entry**: pick a nickname and an explorer (female or male). Profiles are saved per nickname.
-2. **Home**: talk to Mom, read Dad's star map, open the front door, get in the car and lift off.
-3. **The Quiet Sea (space)**: a watercolour planet below you, nebulae, asteroid rivers, comets, and three enormous black holes with gravitational lensing. Fly close to one: *UNKNOWN WORLD DETECTED · [E] ENTER*.
-4. **Farm World, "Harvest Day"**: golden fields under a celestial ring that fills half the sky. Harvest glowing sheaves and carry them to the cart (6 at a time, 12 in total).
-5. **Knowledge World, "Share Knowledge"**: a wealthy floating plaza, with children living in its shadow below. Borrow Lumen Books, ride the light-lift down, and answer each child's question to teach them.
-6. **Hunger World, "Feed the World"**: cracked dusk plains around a mirror lake that reflects the whole sky. Gather wood and stone, build a dock, fish, cook, and fill the empty storehouse.
-7. **Home is calling**: a light beam marks your house on the planet. Land, bring the three cores to the machine, and share dinner with Mom. The story ends on a wide shot of the tiny house under the enormous sky.
+Home (Mother, the machine, the mission) → walk out → car → drive and lift off → Space Hub →
+**Black Hole 01: Farm World** (Harvest Day) · **02: Knowledge World** (Share Knowledge — teach
+four children) · **03: Hunger World** (Feed the World — gather fallen branches, driftwood and stones (no tree cutting), repair the dock, fish, cook,
+deliver) → 3 / 3 cores → Home is calling → land → insert the cores → dinner with Mother → final wide shot.
 
-Each world is its own lazily-loaded module. Worlds load while the screen is dark inside the black-hole transition (*distortion → light stretch → darkness → silence → bell → flash*).
+## Look
 
-## Visual style
+The hand-painted style is procedural, with no image assets. It uses toon ramps, sun-banded
+"paint" shading on foliage, soft billboard cumulus, wind-blown instanced grass and wheat,
+snow-capped mountains and a Kuwahara brush-stroke post filter (you can toggle it in the
+pause menu). A cinematic pass adds gravitational lensing, warp streaks, vignette and grain.
 
-- **Cel shading**: a soft 4-band toon ramp, inverted-hull ink outlines on characters and hero props.
-- **Watercolour post pass** (`src/render/WatercolorShader.js`): wobbly brush edges, pigment pooling at tone edges, paper grain and fibres, uneven pigment blotches, a warm vignette. The same pass handles black-hole **lensing** and the portal **warp / darkness / flash**.
-- **Painted everything**: sky domes with brushed cirrus, cumulus sprites painted on canvas at load time, a hand-painted planet texture, streaky accretion disks, and the celestial rings. The game uses no image files.
-- **Procedural audio**: soft pads and a music-box melody per world, wind, and small sound effects, all generated with WebAudio.
+## Architecture (`src`)
 
-## VR
+| Folder | Contents |
+|---|---|
+| `core/` | Engine (renderer, post passes, WebXR), Input, AudioSys (procedural music and SFX), SaveSystem, noise |
+| `systems/` | CharacterController + NPCs, VehicleController, Dialogue, Missions (inventory and rewards), Interactions and markers, Cinematic camera, physics |
+| `world/` | Environment kit (sky, clouds, grass, trees, mountains, water, mirror lake), cosmic kit (black holes, nebula, planets, rings), architecture helpers |
+| `scenes/` | `base.js` (WorldManager base), `home`, `space`, `farm`, `knowledge`, `hunger`, `common` (arrival, core reward, leaving). Each world is lazily imported and disposed |
+| `ui/` | HUD, overlays (fades, letterbox, title cards, warp streaks), entry screen, in-headset XR panel |
+| `data/content.js` | All editable content: worlds, missions, NPCs, characters, rewards |
+| `admin/` | A separate admin console for players, progression, content and import/export |
 
-When a WebXR headset is available, an **Enter VR** button appears. The game renders directly to the headset (the watercolour pass can't run per-eye, so VR shows the cel-shaded scene). You play in first person, with a floating paper panel that mirrors dialogue, prompts and the current objective. VR support has not been tested on a physical headset yet.
-
-## Admin console
-
-`admin.html` is kept separate from the game. It has:
-- **Dashboard**: active players, worlds discovered, missions completed, oxygen cores collected, and a progress funnel.
-- **Players**: view, edit (character, world, story stage, mission status, inventory), reset, delete, and export/import JSON.
-- **Missions**: tune crop targets, carry capacity, and wood/stone/fish counts. The game reads these overrides.
-- **Worlds & NPCs**: worlds, portals, moods, NPCs and lessons.
-
-The game has no backend. Profiles and settings live in the browser's `localStorage`, so the admin console sees the players on the same device and browser.
-
-## Project structure
-
-```
-src/
-  core/        Engine (renderer, post chain, XR), Game (state manager, camera director, transitions), Input, Tween
-  render/      toon materials + outlines, watercolour shader, painted textures, sky, nature builders, cosmic (rings, black holes)
-  character/   procedural anime characters (player, Mom, NPCs)
-  player/      CharacterController
-  vehicle/     Car model, VehicleController (ground + flight)
-  worlds/      BaseWorld, MissionWorld, TitleWorld, HomeWorld, FarmWorld, KnowledgeWorld, HungerWorld
-  space/       SpaceWorld (the hub)
-  npcs/        NPC
-  dialogue/    DialogueSystem (typewriter lines + choices)
-  missions/    MissionSystem
-  inventory/   InventorySystem
-  progression/ RewardSystem (oxygen core cinematic)
-  save/        SaveSystem (per-nickname profiles)
-  ui/          HUD, EntryScreen, XRPanel
-  audio/       AudioSystem
-  data/        content.js: items, worlds, NPCs, missions, lessons (shared with admin)
-  admin/       admin console
-docs/DESIGN.md  concept analysis, risks, architecture, data model, state flow
-```
+Progress and admin overrides persist in `localStorage` (`astra.players.v1`, `astra.config.v1`).

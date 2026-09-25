@@ -1,7 +1,7 @@
 {
-  "name": "astra-oxygen-journey",
+  "name": "3rdworld",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three": "^0.186.1"
+    "@supabase/supabase-js": "^2.117.1",
+    "three": "^0.170.0"
   },
   "devDependencies": {
-    "vite": "^8.3.1"
+    "vite": "^6.0.5"
   }
 }
