@@ -132,7 +132,10 @@ class Game {
     this.engine.camera.fov = 60;
     this.engine.camera.updateProjectionMatrix();
     if (w.usesPlayer && this.player.model) this.player.attach(w);
-    if (w.usesCar) this.vehicle.attach(w);
+    if (w.usesCar) {
+      this.vehicle.attach(w);
+      this.vehicle.group.visible = true; // the title screen hides it; every world that uses the car shows it
+    }
     this.audio.setMood(opts.attract ? 'title' : w.mood);
     if (this.save.state && !opts.attract) {
       const s = this.save.state;
