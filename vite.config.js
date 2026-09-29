@@ -1,5 +1,6 @@
 // 3rd World: game (/play), admin (/admin) and crawler-readable website pages.
 // Site values come from env: VITE_SITE_URL, VITE_CONTACT_EMAIL, VITE_ADSENSE_CLIENT (ca-pub-…).
+// `vite build --mode crazygames` instead builds the game alone for upload to CrazyGames.
 import { resolve } from 'node:path';
 import { defineConfig, loadEnv } from 'vite';
 
@@ -38,7 +39,31 @@ function site(env) {
   };
 }
 
-export default defineConfig(({ mode }) => ({
+// Portal build: just the game, relative paths, play.html served as index.html.
+function portal() {
+  return {
+    name: '3rdworld-portal',
+    enforce: 'post',
+    transformIndexHtml(html) {
+      // no canonical/share tags or links back to the website inside the portal
+      return html.replace(/<title>[^<]*<\/title>/, '<title>3rd World</title>').replace(/\s*<link rel="(canonical|icon)"[^>]*>/g, '').replace(/\s*<meta property="og:[^>]*>/g, '').replace(/\s*<noscript>[\s\S]*?<\/noscript>/, '');
+    },
+    generateBundle(_, bundle) {
+      if (bundle['play.html']) bundle['play.html'].fileName = 'index.html';
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => mode === 'crazygames' ? {
+  base: './',
+  publicDir: false,
+  plugins: [portal()],
+  build: {
+    outDir: 'dist-crazygames',
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: { input: { play: resolve(__dirname, 'play.html') } },
+  },
+} : ({
   plugins: [site(loadEnv(mode, process.cwd(), 'VITE_'))],
   build: {
     outDir: 'dist',

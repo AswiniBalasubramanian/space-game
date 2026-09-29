@@ -17,6 +17,8 @@ export class AudioSys {
   constructor() {
     this.ctx = null;
     this.muted = false;
+    this.portalMuted = false; // the portal's own mute button (CrazyGames)
+    this.silenced = false; // an ad break is playing
     this.mood = null;
     this.layers = [];
     this._bellTimer = 0;
@@ -29,7 +31,7 @@ export class AudioSys {
     if (!AC) return;
     const ctx = (this.ctx = new AC());
     this.master = ctx.createGain();
-    this.master.gain.value = this.muted ? 0 : 0.9;
+    this.master.gain.value = this._level();
     this.master.connect(ctx.destination);
 
     this.music = ctx.createGain();
@@ -86,8 +88,23 @@ export class AudioSys {
 
   toggleMute() {
     this.muted = !this.muted;
-    if (this.master) this.master.gain.setTargetAtTime(this.muted ? 0 : 0.9, this.ctx.currentTime, 0.1);
+    this._applyLevel(0.1);
     return this.muted;
+  }
+
+  _level(ducked = false) { return ducked || this.muted || this.portalMuted || this.silenced ? 0 : 0.9; }
+
+  _applyLevel(time) {
+    if (this.master) this.master.gain.setTargetAtTime(this._level(), this.ctx.currentTime, time);
+  }
+
+  setPortalMute(on) { this.portalMuted = on; this._applyLevel(0.1); }
+
+  /** Silence everything (e.g. while an ad plays). */
+  silence(on) {
+    this.silenced = on;
+    this._applyLevel(0.05);
+    if (this.ctx) on ? this.ctx.suspend() : this.ctx.resume();
   }
 
   setMood(name) {
@@ -201,7 +218,7 @@ export class AudioSys {
 
   duck(on, time = 0.4) {
     if (!this.ctx) return;
-    this.master.gain.setTargetAtTime(on || this.muted ? 0 : 0.9, this.ctx.currentTime, time);
+    this.master.gain.setTargetAtTime(this._level(on), this.ctx.currentTime, time);
   }
 
   _noiseBurst({ dur = 0.3, freq = 800, q = 1, vol = 0.2, type = 'bandpass', sweep = null }) {

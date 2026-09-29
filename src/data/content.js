@@ -1,5 +1,6 @@
 // Default game content. The admin panel can override any of these values; overrides
 // are stored in localStorage under CONFIG_KEY and deep-merged at load time.
+import { store } from '../core/platform.js';
 
 export const CONFIG_KEY = 'astra.config.v1';
 
@@ -89,7 +90,7 @@ export function deepMerge(base, over) {
 
 export function loadContent() {
   try {
-    const raw = localStorage.getItem(CONFIG_KEY);
+    const raw = store.getItem(CONFIG_KEY);
     return raw ? deepMerge(DEFAULT_CONTENT, JSON.parse(raw)) : structuredClone(DEFAULT_CONTENT);
   } catch {
     return structuredClone(DEFAULT_CONTENT);

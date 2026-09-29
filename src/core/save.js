@@ -1,7 +1,9 @@
 import { pushSave } from './cloud.js';
+import { store } from './platform.js';
 
-// SaveSystem: every player's progress lives in one localStorage registry keyed by
-// nickname, so the admin panel can read and manage all of them.
+// SaveSystem: every player's progress lives in one registry keyed by nickname, so the
+// admin panel can read and manage all of them. `store` is localStorage on the website and
+// the CrazyGames Data Module inside the CrazyGames build.
 
 export const PLAYERS_KEY = 'astra.players.v1';
 export const ACTIVE_KEY = 'astra.active.v1';
@@ -25,7 +27,7 @@ export function defaultState(nickname, character) {
 
 function readAll() {
   try {
-    return JSON.parse(localStorage.getItem(PLAYERS_KEY) || '{}') || {};
+    return JSON.parse(store.getItem(PLAYERS_KEY) || '{}') || {};
   } catch {
     return {};
   }
@@ -33,7 +35,7 @@ function readAll() {
 
 function writeAll(all) {
   try {
-    localStorage.setItem(PLAYERS_KEY, JSON.stringify(all));
+    store.setItem(PLAYERS_KEY, JSON.stringify(all));
   } catch { /* storage full or blocked — game keeps running in memory */ }
 }
 
@@ -48,7 +50,7 @@ export class SaveSystem {
   static listPlayers() { return Object.values(readAll()); }
 
   static activeNickname() {
-    try { return localStorage.getItem(ACTIVE_KEY); } catch { return null; }
+    try { return store.getItem(ACTIVE_KEY); } catch { return null; }
   }
 
   static find(nick) { return readAll()[idOf(nick)] || null; }
@@ -82,7 +84,7 @@ export class SaveSystem {
     all[idOf(this.state.nickname)] = this.state;
     writeAll(all);
     pushSave(this.state);
-    try { localStorage.setItem(ACTIVE_KEY, this.state.nickname); } catch { /* ignore */ }
+    try { store.setItem(ACTIVE_KEY, this.state.nickname); } catch { /* ignore */ }
   }
 
   /** Adopt a cloud copy (e.g. after an admin edit). */

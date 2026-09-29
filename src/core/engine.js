@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { store } from './platform.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
@@ -126,7 +127,7 @@ export class Engine {
     composer.addPass(new OutputPass());
 
     this.painterly = true;
-    try { this.painterly = localStorage.getItem('astra.painterly') !== '0'; } catch { /* ignore */ }
+    try { this.painterly = store.getItem('astra.painterly') !== '0'; } catch { /* ignore */ }
     this.paintPass.enabled = this.painterly;
 
     addEventListener('resize', () => this.resize());
@@ -136,7 +137,7 @@ export class Engine {
   setPainterly(on) {
     this.painterly = on;
     this.paintPass.enabled = on;
-    try { localStorage.setItem('astra.painterly', on ? '1' : '0'); } catch { /* ignore */ }
+    try { store.setItem('astra.painterly', on ? '1' : '0'); } catch { /* ignore */ }
   }
 
   resize() {

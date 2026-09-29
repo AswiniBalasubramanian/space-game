@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:crazygames": "vite build --mode crazygames && cd dist-crazygames && rm -f ../3rd-world-crazygames.zip && zip -qr ../3rd-world-crazygames.zip .",
     "preview": "vite preview"
   },
   "dependencies": {

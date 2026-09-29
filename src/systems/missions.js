@@ -1,6 +1,7 @@
 // MissionSystem (+ InventorySystem + RewardSystem helpers). Missions are data: a
 // title, description, ordered steps, counters and a completion state, persisted in
 // the save file. Scenes advance them; the HUD reads `current()`.
+import { happytime } from '../core/platform.js';
 
 const STEPS = {
   find_oxygen: [
@@ -72,6 +73,7 @@ export class Missions {
     if (this.s.cores.includes(worldId)) return false;
     this.s.cores.push(worldId);
     this.give('oxygenCore', 1);
+    happytime();
     return true;
   }
 

@@ -6,7 +6,8 @@ import { createClient } from '@supabase/supabase-js';
 const URL = import.meta.env.VITE_SUPABASE_URL;
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const cloudEnabled = !!(URL && KEY);
+// Portal builds (e.g. CrazyGames) keep saves on the portal instead of Supabase.
+export const cloudEnabled = !!(URL && KEY) && !import.meta.env.VITE_PORTAL;
 export const supabase = cloudEnabled ? createClient(URL, KEY, { auth: { persistSession: true, storageKey: 'astra.auth' } }) : null;
 
 const key = (nick) => nick.trim().toLowerCase();

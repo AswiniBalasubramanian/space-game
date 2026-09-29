@@ -1,5 +1,6 @@
 // Cinematic entry: nickname → character selection (live 3D preview) → begin.
 import * as THREE from 'three';
+import { PORTAL } from '../core/platform.js';
 import { SaveSystem } from '../core/save.js';
 import { buildCharacter } from '../systems/character.js';
 
@@ -40,7 +41,7 @@ export function runEntry(game) {
         ${players.length ? `<div class="continue-list"><span class="field-label">Continue a journey</span>${players.map((p) => `
           <div class="continue-item" data-n="${esc(p.nickname)}"><span>${esc(p.nickname)}</span><small>${p.inventory?.oxygenCore || 0} / 3 OXYGEN · ${(content.worlds[p.currentWorld]?.name || '').toUpperCase()}</small></div>`).join('')}</div>` : ''}
       </div>
-      <div class="entry-foot">WASD · MOUSE · E · SHIFT · <a href="/how-to-play" style="color:inherit">GUIDE</a></div>`;
+      <div class="entry-foot">WASD · MOUSE · E · SHIFT${PORTAL ? '' : ' · <a href="/how-to-play">GUIDE</a>'}</div>`;
       const input = root.querySelector('#nick');
       const go = root.querySelector('#go');
       input.focus();

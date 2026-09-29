@@ -9,6 +9,7 @@ import { AudioSys } from './core/audio.js';
 import { SaveSystem } from './core/save.js';
 import { loadContent, deepMerge } from './data/content.js';
 import { ready as cloudReady, loadRemoteConfig, pullSave, flushPush } from './core/cloud.js';
+import { initPlatform, loadingStart, loadingStop, setPlaying, onPortalMute, midgameAd, PORTAL } from './core/platform.js';
 import { Overlay, wait } from './ui/overlay.js';
 import { HUD } from './ui/hud.js';
 import { XRPanel } from './ui/xrpanel.js';
@@ -75,10 +76,12 @@ class Game {
       return this.loadWorld(dev, {});
     }
     cloudReady();
+    loadingStart();
     const [remote] = await Promise.all([loadRemoteConfig().catch(() => null), this.loadWorld('space', { attract: true })]);
     if (remote) this.content = deepMerge(this.content, remote);
     this.overlay.setFadeInstant(1);
     this.overlay.fade(0, 2500);
+    loadingStop();
     const res = await runEntry(this);
     this.audio.unlock();
     if (res.resume) {
@@ -112,6 +115,8 @@ class Game {
     this.hud.navs([]);
     this.hud.speed('');
     const old = this.world;
+    // portal builds: an ad break at the natural pause between worlds
+    if (PORTAL && old && !opts.attract) await this.adBreak();
     if (old) {
       this.markers.clear();
       this.interactions.clear();
@@ -147,6 +152,13 @@ class Game {
     await w.enter(opts);
   }
 
+  async adBreak() {
+    this.input.setPointerLock(false);
+    await midgameAd({ onStart: () => this.audio.silence(true) });
+    this.audio.silence(false);
+    this.clock.getDelta(); // don't let the ad's duration count as one long frame
+  }
+
   setMode(mode) {
     this.mode = mode;
     const inGame = ['walk', 'drive', 'fly'].includes(mode);
@@ -175,6 +187,7 @@ class Game {
     if (this.input.hit('Tab') && this.save.state && !this.paused) this.hud.toggleInventory();
     if (this.input.hit('KeyM')) this.audio.toggleMute();
     if (!this.paused) this.step(dt);
+    setPlaying(['walk', 'drive', 'fly'].includes(this.mode) && !this.paused && !this.loading && !document.hidden);
     this.engine.render(this.time);
     this.input.endFrame();
   }
@@ -274,8 +287,12 @@ class Game {
   }
 }
 
-const game = new Game();
-window.__astra = game;
-game.boot().catch((e) => console.error(e));
+// The portal SDK (CrazyGames build only) must be ready before saves and settings are read.
+initPlatform().then(() => {
+  const game = new Game();
+  window.__astra = game;
+  onPortalMute((m) => game.audio.setPortalMute(m));
+  game.boot().catch((e) => console.error(e));
+});
 
 export { wait };

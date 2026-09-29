@@ -1,6 +1,7 @@
 // HOME WORLD — a small, warm cottage in a wide painted meadow beneath an enormous sky.
 // Opening: Mother, the oxygen machine, the mission. Finale: the cores, the table, the sky.
 import * as THREE from 'three';
+import { happytime } from '../core/platform.js';
 import { World } from './base.js';
 import {
   addLights, makeSky, makeClouds, makeTerrain, makeGrass, makeForest, makeMountain, makeRocks, makeFlowers,
@@ -883,6 +884,7 @@ export default class HomeWorld extends World {
     g.missions.complete('find_oxygen');
     g.save.state.stage = 'complete';
     g.save.save();
+    happytime();
     // later that evening…
     await g.overlay.fade(1, 1400);
     await g.overlay.caption('That evening, she cooked for the first time in months.', 3200);

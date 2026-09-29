@@ -52,6 +52,24 @@ To apply for AdSense:
 
 AdSense only accepts a root domain you own, so a `*.vercel.app` address usually won't be approved. Connect a custom domain (e.g. `3rdworld.com`) first.
 
+## CrazyGames build
+
+```bash
+npm run build:crazygames   # → dist-crazygames/ and 3rd-world-crazygames.zip
+```
+
+This builds the game only (no website pages or admin) with relative paths, ready to upload in the
+CrazyGames Developer Portal as an **HTML5** game. In this build (`VITE_PORTAL=crazygames`, see `.env.crazygames`)
+the game loads the CrazyGames SDK v3 through `src/core/platform.js` and:
+- **saves** progress with the SDK **Data Module** instead of `localStorage` (Supabase is switched off);
+- follows the **CrazyGames mute** setting;
+- requests a **midgame ad** at the break between worlds, with the game's audio silenced while it plays;
+- reports `loadingStart/Stop`, `gameplayStart/Stop` (walking, driving or flying, not paused) and `happytime`
+  (each Oxygen Core and the finale).
+
+Every SDK call is guarded, so if the SDK fails to load the game still runs and saves to `localStorage`.
+Portal form answers: engine **HTML5**, progress save **Data Module**, and tick **CrazyGames muting**.
+
 ## Database (Supabase) & private admin
 
 Without configuration the game saves to `localStorage` only. To keep a real database:
