@@ -44,7 +44,7 @@ To apply for AdSense:
 1. Set `VITE_SITE_URL` and `VITE_CONTACT_EMAIL` in Vercel and deploy.
 2. Add the site in **Google Search Console** and submit `https://<your-site>/sitemap.xml`.
 3. Sign up at **adsense.google.com** with your site URL and copy your publisher ID (`ca-pub-…`).
-4. Set `VITE_ADSENSE_CLIENT=ca-pub-…` in Vercel and redeploy. The AdSense tag is added to the content
+4. The publisher ID `ca-pub-9371827738055837` is built in (override with `VITE_ADSENSE_CLIENT`, or `off`). The AdSense tag is added to the content
    pages only, never inside the game or admin, and `/ads.txt` gets your line.
 5. In AdSense, click **Request review**. Approval usually takes a few days to a few weeks.
 6. **Privacy & messaging → European regulations:** turn on Google's consent message (a certified CMP),

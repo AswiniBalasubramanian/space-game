@@ -10,7 +10,9 @@ const PAGES = [...CONTENT, '404', 'play', 'admin'];
 function site(env) {
   const url = (env.VITE_SITE_URL || 'https://3rdworld.vercel.app').replace(/\/$/, '');
   const email = env.VITE_CONTACT_EMAIL || 'hello@3rdworld.example';
-  const client = (env.VITE_ADSENSE_CLIENT || '').trim();
+  // AdSense publisher ID (public). VITE_ADSENSE_CLIENT overrides it; set it to 'off' to disable ads.
+  const raw = (env.VITE_ADSENSE_CLIENT || 'ca-pub-9371827738055837').trim();
+  const client = raw === 'off' ? '' : raw;
   const pub = client.replace(/^ca-/, '');
   return {
     name: '3rdworld-site',
