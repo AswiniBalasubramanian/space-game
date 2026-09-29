@@ -99,7 +99,7 @@ function render() {
   root.innerHTML = `<div class="layout">
     <aside><div class="brand">3RD WORLD<small>Admin console</small></div>
       <nav>${tabs.map(([id, n]) => `<button data-tab="${id}" class="${tab === id ? 'on' : ''}">${n}</button>`).join('')}</nav>
-      <div class="foot">Signed in as ${esc(ADMIN_EMAIL)}<br><a href="#" id="signout">Sign out</a> · <a href="./index.html">Open the game →</a></div>
+      <div class="foot">Signed in as ${esc(ADMIN_EMAIL)}<br><a href="#" id="signout">Sign out</a> · <a href="/play">Open the game →</a></div>
     </aside>
     <main>${VIEWS[tab](players)}</main></div>`;
   root.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { tab = b.dataset.tab; render(); }));

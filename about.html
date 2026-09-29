@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About the game · 3rd World</title>
+    <meta name="description" content="About 3rd World: a free, hand-painted browser adventure about kindness and family, made with Three.js and WebGL. The story behind it and the technology that brings it to life." />
+    <link rel="canonical" href="%SITE_URL%/about" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#090a12" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:site_name" content="3rd World" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="About the game · 3rd World" />
+    <meta property="og:description" content="About 3rd World: a free, hand-painted browser adventure about kindness and family, made with Three.js and WebGL. The story behind it and the technology that brings it to life." />
+    <meta property="og:url" content="%SITE_URL%/about" />
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About the game · 3rd World" />
+    <meta name="twitter:description" content="About 3rd World: a free, hand-painted browser adventure about kindness and family, made with Three.js and WebGL. The story behind it and the technology that brings it to life." />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/site/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">3RD WORLD</a>
+        <nav class="nav" aria-label="Main">
+        <a href="/" class="">Home</a>
+        <a href="/how-to-play" class="">How to Play</a>
+        <a href="/worlds" class="hide-sm">The Worlds</a>
+        <a href="/about" class="hide-sm" aria-current="page">About</a>
+          <a class="btn" href="/play">Play now</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="page-head narrow">
+        <div class="kicker">About</div>
+        <h1>About 3rd World</h1>
+        <p>A small game about a big idea: <em>helping others gives us the strength to save the people we love.</em></p>
+      </div>
+      <article class="narrow">
+        <h2>Why this game exists</h2>
+        <p>3rd World began as an image — a tiny house in a meadow, and above it a universe so large it makes everything else feel small. It grew over a month of late nights into a complete story: a child, a mother who needs help, and three worlds full of people who need help too.</p>
+        <p>Most adventure games are about defeating something. This one is about showing up for others. You don't earn your rewards by winning fights; you earn them by bringing in a harvest, teaching a child to count, and helping a village fill its granary. The journey outward turns out to be the way home.</p>
+
+        <h2>The look</h2>
+        <p>The art direction is inspired by hand-painted animation backgrounds: warm light, big soft clouds, saturated skies and gentle colour. Everything you see — the terrain, grass, trees, clouds, water, characters, the car and even the black holes — is generated in code as the game runs. A brush-stroke post-processing filter gives each frame a painted texture.</p>
+
+        <h2>How it's made</h2>
+        <ul>
+          <li><strong>Three.js and WebGL</strong> render the 3D worlds directly in your browser.</li>
+          <li><strong>Custom shaders</strong> create the painted skies, wind-blown grass, soft billboard clouds, the mirror lake and the gravitational lensing around black holes.</li>
+          <li><strong>Procedural audio</strong> built with the Web Audio API provides the ambient music, wind and sound effects — no audio files are downloaded.</li>
+          <li><strong>WebXR</strong> support lets the game run on compatible virtual-reality headsets.</li>
+          <li>Your progress is saved in your own browser's local storage.</li>
+        </ul>
+
+        <h2>Credits</h2>
+        <p>Design, story and development: the 3rd World creator. 3D engine: <a href="https://threejs.org" rel="noopener">Three.js</a> (MIT licence). Typefaces: Cormorant Garamond, DM Sans and JetBrains Mono (SIL Open Font License), served by Google Fonts.</p>
+
+        <h2>Get in touch</h2>
+        <p>Feedback, bug reports and kind words are always welcome — see the <a href="/contact">contact page</a>.</p>
+        <p><a class="btn" href="/play">Play 3rd World →</a></p>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>© %YEAR% 3rd World · A free browser game made with care.</p>
+        <nav aria-label="Footer">
+          <a href="/play">Play</a>
+          <a href="/how-to-play">How to Play</a>
+          <a href="/worlds">The Worlds</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Use</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+/* 3rd World — website pages (landing, guides, policies). Matches the game's palette. */
+:root {
+  --space: #090a12;
+  --panel: #10121d;
+  --maroon: #a9203e;
+  --orange: #f2703c;
+  --warm: #f5f1ea;
+  --dim: rgba(245, 241, 234, 0.72);
+  --faint: rgba(245, 241, 234, 0.14);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--space); color: var(--warm); font: 400 17px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: var(--orange); text-underline-offset: 3px; }
+a:hover { color: #ff9a6a; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; letter-spacing: 0.02em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(44px, 7vw, 84px); font-weight: 300; }
+h2 { font-size: clamp(32px, 4.2vw, 48px); }
+h3 { font-size: 28px; }
+p { margin: 0 0 1.1em; color: var(--dim); }
+strong { color: var(--warm); font-weight: 500; }
+.wrap { width: min(1100px, 100% - 40px); margin: 0 auto; }
+.narrow { width: min(780px, 100% - 40px); margin: 0 auto; }
+.kicker { font: 500 12px/1 var(--mono); letter-spacing: 0.36em; text-transform: uppercase; color: var(--orange); display: inline-flex; gap: 12px; align-items: center; margin-bottom: 18px; }
+.kicker::before { content: ''; width: 28px; height: 1px; background: var(--orange); }
+
+/* header / footer */
+.site-header { position: sticky; top: 0; z-index: 10; background: rgba(9, 10, 18, 0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--faint); }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { font: 400 24px/1 var(--serif); letter-spacing: 0.14em; color: var(--warm); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; gap: 22px; align-items: center; }
+.nav a { color: var(--dim); text-decoration: none; font-size: 15px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--warm); }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; background: linear-gradient(90deg, var(--maroon), var(--orange)); color: #fff !important; text-decoration: none; font: 500 15px/1 var(--sans); letter-spacing: 0.02em; border: 0; }
+.btn:hover { filter: brightness(1.1); }
+.btn.big { padding: 18px 32px; font-size: 18px; }
+.btn.ghost { background: transparent; border: 1px solid var(--faint); }
+.site-footer { border-top: 1px solid var(--faint); margin-top: 90px; padding: 40px 0 50px; font-size: 14px; }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
+.site-footer a { color: var(--dim); text-decoration: none; }
+.site-footer a:hover { color: var(--warm); }
+.site-footer p { margin: 0; font-size: 14px; }
+
+/* hero */
+.hero { position: relative; min-height: min(86vh, 760px); display: flex; align-items: flex-end; padding: 0 0 70px; background: var(--space) url('/images/farm-world.jpg') center 30% / cover; }
+.hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,10,18,.35) 0%, rgba(9,10,18,0) 30%, rgba(9,10,18,.6) 65%, var(--space) 100%); }
+.hero .wrap { position: relative; z-index: 1; }
+.hero .tag { font: italic 400 clamp(22px, 2.6vw, 30px)/1.4 var(--serif); color: var(--warm); max-width: 34ch; margin-bottom: 26px; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.hero .note { font-size: 14px; color: var(--dim); margin: 16px 0 0; }
+
+section { padding: 80px 0 0; }
+.lead { font-size: 20px; color: var(--warm); opacity: 0.9; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.card { background: var(--panel); border: 1px solid var(--faint); overflow: hidden; display: flex; flex-direction: column; }
+.card img { aspect-ratio: 16 / 10; object-fit: cover; width: 100%; }
+.card .body { padding: 22px 22px 26px; }
+.card .num { font: 500 12px var(--mono); letter-spacing: 0.3em; color: var(--orange); }
+.card h3 { margin: 8px 0 10px; }
+.card p { font-size: 16px; margin: 0; }
+.figure { border: 1px solid var(--faint); }
+.features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 40px; margin-top: 10px; }
+.features div { border-left: 2px solid var(--orange); padding: 2px 0 2px 16px; }
+.features h3 { font-size: 22px; margin-bottom: 4px; }
+.features p { font-size: 15.5px; margin: 0; }
+
+/* article pages */
+.page-head { padding: 70px 0 20px; }
+.page-head p { font-size: 19px; }
+.page-head p.updated { font-size: 12px; }
+article h2 { margin-top: 1.6em; }
+article h3 { margin-top: 1.4em; font-size: 26px; }
+article ul, article ol { color: var(--dim); padding-left: 22px; }
+article li { margin: 0 0 0.5em; }
+article img { margin: 24px 0; border: 1px solid var(--faint); }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 26px; font-size: 16px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--faint); vertical-align: top; }
+th { font: 500 12px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+td:first-child { color: var(--warm); white-space: nowrap; }
+kbd { font: 500 13px var(--mono); padding: 2px 8px; border: 1px solid var(--faint); background: var(--panel); color: var(--warm); }
+.faq details { border-bottom: 1px solid var(--faint); padding: 18px 0; }
+.faq summary { cursor: pointer; font: 400 24px var(--serif); color: var(--warm); list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; float: right; color: var(--orange); }
+.faq details[open] summary::after { content: '–'; }
+.faq details p { margin: 12px 0 0; }
+.callout { background: var(--panel); border: 1px solid var(--faint); border-left: 3px solid var(--orange); padding: 18px 22px; margin: 24px 0; }
+.callout p { margin: 0; }
+.updated { font: 500 12px var(--mono); letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; }
+.ad-slot { margin: 40px 0; min-height: 0; }
+
+@media (max-width: 860px) {
+  .grid3 { grid-template-columns: 1fr; }
+  .grid2, .features { grid-template-columns: 1fr; }
+  .nav a.hide-sm { display: none; }
+  .nav { gap: 14px; }
+  body { font-size: 16px; }
+}
+@media (max-width: 520px) {
+  .nav a:not(.btn) { display: none; }
+}

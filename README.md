@@ -9,12 +9,13 @@ people in each world to earn an Oxygen Core, then fly home and save her.
 
 ```bash
 npm install
-npm run dev          # game:  http://localhost:5173/
+npm run dev          # site:  http://localhost:5173/
+                     # game:  http://localhost:5173/play.html
                      # admin: http://localhost:5173/admin.html
 npm run build        # outputs dist/
 ```
 
-Dev shortcut: `/?dev=home|space|farm|knowledge|hunger` jumps straight into a world as a test player.
+Dev shortcut: `/play.html?dev=home|space|farm|knowledge|hunger` jumps straight into a world as a test player.
 
 ## Deploy to Vercel (own project, `3rdworld` name)
 
@@ -23,12 +24,33 @@ This repository is a self-contained Vite project (`package.json`, `vite.config.j
 1. Go to **vercel.com/new** and import this GitHub repo.
 2. **Project name:** `3rdworld`. The free address becomes `https://3rdworld.vercel.app` if that name is free.
 3. **Root Directory:** leave it as the repository root. The build settings come from `vercel.json`.
-4. **Environment Variables** (optional, for the database): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
-5. Click **Deploy**. The game is served at `/` and your admin console at `/admin`.
+4. **Environment Variables:** `VITE_SITE_URL` (your final address), `VITE_CONTACT_EMAIL`, and optionally
+   `VITE_ADSENSE_CLIENT`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+5. Click **Deploy**. The website is served at `/`, the game at `/play` and your admin console at `/admin`.
 6. **Custom domain** (e.g. `3rdworld.com`, if you own it): open **Settings → Domains → Add** and
    follow Vercel's DNS instructions.
 
 CLI alternative: `npx vercel --prod`, then choose the project name `3rdworld`.
+
+## Website, SEO & Google AdSense
+
+The game is a WebGL canvas, which crawlers can't read, so the site also ships static HTML pages:
+`/` (landing + FAQ), `/how-to-play`, `/worlds`, `/about`, `/contact`, `/privacy`, `/terms` and a `404`.
+Each has a title, meta description, canonical URL, Open Graph/Twitter tags, and the landing page has
+`VideoGame` + `FAQPage` JSON-LD. The build also writes `sitemap.xml`, `robots.txt` (blocks `/admin`) and `ads.txt`.
+Page sources are the root `*.html` files; `%SITE_URL%`, `%CONTACT_EMAIL%` and `%YEAR%` are filled in at build time.
+
+To apply for AdSense:
+1. Set `VITE_SITE_URL` and `VITE_CONTACT_EMAIL` in Vercel and deploy.
+2. Add the site in **Google Search Console** and submit `https://<your-site>/sitemap.xml`.
+3. Sign up at **adsense.google.com** with your site URL and copy your publisher ID (`ca-pub-…`).
+4. Set `VITE_ADSENSE_CLIENT=ca-pub-…` in Vercel and redeploy. The AdSense tag is added to the content
+   pages only, never inside the game or admin, and `/ads.txt` gets your line.
+5. In AdSense, click **Request review**. Approval usually takes a few days to a few weeks.
+6. **Privacy & messaging → European regulations:** turn on Google's consent message (a certified CMP),
+   which is required to show ads to visitors in the EEA, UK and Switzerland.
+
+AdSense only accepts a root domain you own, so a `*.vercel.app` address usually won't be approved. Connect a custom domain (e.g. `3rdworld.com`) first.
 
 ## Database (Supabase) & private admin
 
