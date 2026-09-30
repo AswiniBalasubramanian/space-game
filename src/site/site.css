@@ -140,3 +140,4 @@ kbd { font: 500 13px var(--mono); padding: 2px 8px; border: 1px solid var(--fain
 /* world cards are <article>s: don't inherit the article-page image margins */
 .card img { margin: 0; border: 0; }
 section[id] { scroll-margin-top: 80px; }
+.page-head p.creator { font-size: 16px; border-left: 2px solid var(--orange); padding-left: 16px; margin-top: 26px; }
